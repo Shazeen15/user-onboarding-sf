@@ -60,7 +60,6 @@ function Form(props) {
     e.preventDefault(); // <form> onSubmit has default behavior from HTML!
 
     // send out POST request with obj as second param, for us that is formState.
-    // trigger .catch by changing URL to "https://reqres.in/api/register" -> see step 7 in notion notes
     axios
       .post("https://reqres.in/api/users", formState)
       .then((resp) => {
