@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import * as yup from "yup";
-import './App.css';
-
 
 function Form(props) {
-    //state for initial 
-     // managing state for our form inputs
+  //state for initial
+  // managing state for our form inputs
   const [formState, setFormState] = useState({
     name: "",
     email: "",
     password: "",
-    terms: false
+    terms: false,
   });
 
   // server error
@@ -25,7 +23,7 @@ function Form(props) {
     name: "",
     email: "",
     password: "",
-    terms: ""
+    terms: "",
   });
 
   // temporary state used to display response from API. this is not a commonly used convention
@@ -73,7 +71,7 @@ function Form(props) {
           name: "",
           email: "",
           password: "",
-          terms: false
+          terms: false,
         });
       })
       .catch((err) => {
@@ -94,7 +92,7 @@ function Form(props) {
     const newFormState = {
       ...formState,
       [e.target.name]:
-        e.target.type === "checkbox" ? e.target.checked : e.target.value
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
     };
 
     validateChange(e); // for each change in input, do inline validation
@@ -106,7 +104,7 @@ function Form(props) {
     name: yup.string().required("Name is required."), // must be a string or else error
     email: yup.string().email(), // must have string present, must be of the shape of an email
     password: yup.string().required("What's your password?"),
-    terms: yup.boolean().oneOf([true])
+    terms: yup.boolean().oneOf([true]),
   });
 
   // whenever state updates, validate the entire form. if valid, then change button to be enabled.
@@ -125,32 +123,66 @@ function Form(props) {
   }, [formState]);
 
   console.log("formState", formState);
-    return (
-        <form onSubmit={formSubmit}>
-            <label htmlFor="name">Name 
-            {errors.name.length > 0 ? (<p className="error">{errors.name}</p>) : null}
-            </label>
-            <input type="text" name="name" id="name" value={formState.name} onChange={inputChange}/>
+  return (
+    <form onSubmit={formSubmit}>
+      <label htmlFor="name">
+        Name
+        {errors.name.length > 0 ? <p className="error">{errors.name}</p> : null}
+      </label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value={formState.name}
+        onChange={inputChange}
+      />
 
-            <label htmlFor="email">Email
-            {errors.email.length > 0 ? (<p className="error">{errors.email}</p>) : null}
-            </label>
-            <input type="email" name="email" id="email" value={formState.email} onChange={inputChange}/>
+      <label htmlFor="email">
+        Email
+        {errors.email.length > 0 ? (
+          <p className="error">{errors.email}</p>
+        ) : null}
+      </label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        value={formState.email}
+        onChange={inputChange}
+      />
 
-            <label htmlFor="password">Password
-            {errors.password.length > 0 ? (<p className="error">{errors.password}</p>) : null}
-            </label>
-            <input type="password" name="password" id="password" value={formState.password} onChange={inputChange}/>
+      <label htmlFor="password">
+        Password
+        {errors.password.length > 0 ? (
+          <p className="error">{errors.password}</p>
+        ) : null}
+      </label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        value={formState.password}
+        onChange={inputChange}
+      />
 
-            <label htmlFor="terms" className="terms">
-                <input type="checkbox" id="terms" name="terms" checked={formState.terms} onChange={inputChange}/>
-                    Terms & Cs
-                    {errors.terms.length > 0 ? (<p className="error">{errors.terms}</p>) : null}
-            </label>
-            <button type='submit' disabled={buttonIsDisabled}>Submit</button>
-            
-        </form>
-    )
+      <label htmlFor="terms" className="terms">
+        <input
+          type="checkbox"
+          id="terms"
+          name="terms"
+          checked={formState.terms}
+          onChange={inputChange}
+        />
+        Terms & Cs
+        {errors.terms.length > 0 ? (
+          <p className="error">{errors.terms}</p>
+        ) : null}
+      </label>
+      <button type="submit" disabled={buttonIsDisabled}>
+        Submit
+      </button>
+    </form>
+  );
 }
 
 export default Form;
