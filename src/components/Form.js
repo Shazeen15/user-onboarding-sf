@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as yup from "yup";
 
+import formSchema from "../validation/formSchema";
+
+import FormDetails from "./FormDetails";
+
 function Form(props) {
   //state for initial
   // managing state for our form inputs
@@ -99,14 +103,6 @@ function Form(props) {
     setFormState(newFormState); // update state with new data
   };
 
-  // Add a schema, used for all validation to determine whether the input is valid or not
-  const formSchema = yup.object().shape({
-    name: yup.string().required("Name is required."), // must be a string or else error
-    email: yup.string().email(), // must have string present, must be of the shape of an email
-    password: yup.string().required("What's your password?"),
-    terms: yup.boolean().oneOf([true]),
-  });
-
   // whenever state updates, validate the entire form. if valid, then change button to be enabled.
   //isValid returns a promise
   useEffect(() => {
@@ -124,64 +120,13 @@ function Form(props) {
 
   console.log("formState", formState);
   return (
-    <form onSubmit={formSubmit}>
-      <label htmlFor="name">
-        Name
-        {errors.name.length > 0 ? <p className="error">{errors.name}</p> : null}
-      </label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        value={formState.name}
-        onChange={inputChange}
-      />
-
-      <label htmlFor="email">
-        Email
-        {errors.email.length > 0 ? (
-          <p className="error">{errors.email}</p>
-        ) : null}
-      </label>
-      <input
-        type="email"
-        name="email"
-        id="email"
-        value={formState.email}
-        onChange={inputChange}
-      />
-
-      <label htmlFor="password">
-        Password
-        {errors.password.length > 0 ? (
-          <p className="error">{errors.password}</p>
-        ) : null}
-      </label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        value={formState.password}
-        onChange={inputChange}
-      />
-
-      <label htmlFor="terms" className="terms">
-        <input
-          type="checkbox"
-          id="terms"
-          name="terms"
-          checked={formState.terms}
-          onChange={inputChange}
-        />
-        Terms & Cs
-        {errors.terms.length > 0 ? (
-          <p className="error">{errors.terms}</p>
-        ) : null}
-      </label>
-      <button type="submit" disabled={buttonIsDisabled}>
-        Submit
-      </button>
-    </form>
+    <FormDetails
+      formSubmit={formSubmit}
+      errors={errors}
+      formState={formState}
+      inputChange={inputChange}
+      buttonIsDisabled={buttonIsDisabled}
+    />
   );
 }
 
